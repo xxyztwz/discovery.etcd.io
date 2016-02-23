@@ -15,7 +15,7 @@ import (
 	"github.com/coreos/go-etcd/etcd"
 )
 
-var baseURI = flag.String("host", "https://discovery.etcd.io", "base location for computed token URI")
+var baseURI = flag.String("host", "http://192.168.2.254", "base location for computed token URI")
 
 func generateCluster() string {
 	b := make([]byte, 16)
