@@ -4,11 +4,19 @@
 cat >.payload <<EOF
 go run third_party.go clean -i net
 go run third_party.go install -tags netgo std
+
+export GOPATH=/usr/src/myapp/third_party/src:/go
+
+if [ ! -d /usr/src/myapp/third_party/src/github.com/coreos/discovery.etcd.io ]; then
+ln -s /usr/src/myapp /usr/src/myapp/third_party/src/github.com/coreos
+mv third_party/src/github.com/coreos/myapp third_party/src/github.com/coreos/discovery.etcd.io
+fi
+
 CGO_ENABLED=0 go run third_party.go build -a -tags netgo --ldflags '-w -extldflags=-static' -o bin/discovery-linux64-static github.com/coreos/discovery.etcd.io
 EOF
 
 echo "building statically-linked discovery.etcd.io..."
-docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp 10.1.13.57:5001/golang:1.6 bash .payload
+docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp docker.hikvision.com.cn/golang:1.6 bash .payload
 rm -f .payload
 
 echo "building docker container..."
