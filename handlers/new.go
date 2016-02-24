@@ -52,7 +52,8 @@ func setupToken(size int) (string, error) {
 }
 
 func deleteToken(token string) error {
-	client := etcd.NewClient(nil)
+	var machines = []string{os.Getenv("ETCD_COON")}
+	client := etcd.NewClient(machines)
 
 	if token == "" {
 		return errors.New("No token given")
