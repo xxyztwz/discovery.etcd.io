@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"github.com/coreos/go-systemd/activation"
 
 	_ "github.com/coreos/discovery.etcd.io/http"
@@ -17,6 +18,14 @@ func main() {
 	var BASE_URL = os.Getenv("BASE_URL")
 	if( ETCD_COON == "" || BASE_URL == "" ){
 		panic("Need envronment ETCD_COON and BASE_URL")
+	}
+	
+	if( !strings.Contains(ETCD_COON,"http://") ){
+		os.Setenv("ETCD_COON", "http://" + ETCD_COON)
+	}
+	
+	if( !strings.Contains(BASE_URL,"http://") ){
+		os.Setenv("BASE_URL", "http://" + BASE_URL)
 	}
 	
 	log.SetFlags(0)
