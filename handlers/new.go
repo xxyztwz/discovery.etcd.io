@@ -32,8 +32,10 @@ func setupToken(size int) (string, error) {
 	if token == "" {
 		return "", errors.New("Couldn't generate a token")
 	}
-
-	client := etcd.NewClient(nil)
+	
+	var machines [1]string
+	machines = []string{"https://172.17.42.1:4001"}
+	client := etcd.NewClient(machines)
 	key := path.Join("_etcd", "registry", token)
 	resp, err := client.CreateDir(key, 0)
 
