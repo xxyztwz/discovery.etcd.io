@@ -8,7 +8,7 @@ CGO_ENABLED=0 go run third_party.go build -a -tags netgo --ldflags '-w -extldfla
 EOF
 
 echo "building statically-linked discovery.etcd.io..."
-docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:latest bash .payload
+docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp 10.1.13.57:5001/golang:1.6 bash .payload
 rm -f .payload
 
 echo "building docker container..."
